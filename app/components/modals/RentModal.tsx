@@ -19,19 +19,18 @@ import { useRouter } from 'next/navigation';
 
 
 enum STEPS {
-    CATEGORY = 0,
+    DESCRIPTION = 0,
     LOCATION = 1,
     INFO = 2,
     IMAGES = 3,
-    DESCRIPTION = 4,
-    PRICE = 5
+    PRICE = 4
 }
 
 const RentModal = () => {
     const router = useRouter();
     const rentModal = useRentModal();
 
-    const [step, setStep] = useState(STEPS.CATEGORY);
+    const [step, setStep] = useState(STEPS.DESCRIPTION);
     const [isLoading, setIsLoading] = useState(false);
 
     const {
@@ -47,6 +46,7 @@ const RentModal = () => {
         defaultValues: {
             category: '',
             location: null,
+            address: '',
             guestCount: 1,
             roomCount: 1,
             bathroomCount: 1,
@@ -97,7 +97,7 @@ const RentModal = () => {
             toast.success('Listing Created!');
             router.refresh();
             reset();
-            setStep(STEPS.CATEGORY);
+            setStep(STEPS.DESCRIPTION);
             rentModal.onClose();
         })
         .catch(() => {
@@ -116,33 +116,35 @@ const RentModal = () => {
     }, [step]);
 
     const secondaryActionLabel = useMemo(() => {
-        if(step === STEPS.CATEGORY) {
+        if(step === STEPS.DESCRIPTION) {
             return undefined;
         }
 
         return 'Back';
     }, [step]);
 
-    let bodyContent = (
+    let bodyContent= (
         <div className='flex flex-col gap-8'>
             <Heading 
-                title='Which of these best describes your place?'
-                subtitle='Pick a category'
+                title='Describe your property'
+                subtitle='Let guests know the details'
             />
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto'>
-                {categories.map((item) => (
-                    <div key={item.label} className='col-span-1'>
-                        <CategoryInput 
-                            onClick={(category) => 
-                                {setCustomValue('category', category)}}
-                            selected={category === item.label}
-                            label={item.label}
-                            icon={item.icon}
-                        />
-                    </div>
-
-                ))}
-            </div>
+            <Input 
+                id='title'
+                label='Title'
+                disabled={isLoading}
+                register={register}
+                errors={errors}
+                required
+            />
+            <Input 
+                id='description'
+                label='Description'
+                disabled={isLoading}
+                register={register}
+                errors={errors}
+                required
+            />
         </div>
     )
 
@@ -152,6 +154,14 @@ const RentModal = () => {
                 <Heading 
                     title='Where is your place located?'
                     subtitle='Help guests find you'
+                />
+                <Input 
+                    id='address'
+                    label='Address'
+                    disabled={isLoading}
+                    register={register}
+                    errors={errors}
+                    required
                 />
                 <CountrySelect 
                 value={location}
@@ -208,34 +218,6 @@ const RentModal = () => {
             </div>
         )
     }
-
-    if (step === STEPS.DESCRIPTION) {
-        bodyContent= (
-            <div className='flex flex-col gap-8'>
-                <Heading 
-                    title='Add a photo of your place'
-                    subtitle='Show guests what your place looks like'
-                />
-                <Input 
-                    id='title'
-                    label='Title'
-                    disabled={isLoading}
-                    register={register}
-                    errors={errors}
-                    required
-                />
-                <hr />
-                <Input 
-                    id='description'
-                    label='Description'
-                    disabled={isLoading}
-                    register={register}
-                    errors={errors}
-                    required
-                />
-            </div>
-        )
-    }
  
     if (step === STEPS.PRICE) {
         bodyContent= (
@@ -265,8 +247,8 @@ const RentModal = () => {
         onSubmit={handleSubmit(onSubmit)}
         actionLabel={actionLabel}
         secondaryActionLabel={secondaryActionLabel}
-        secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
-        title='Airbnb your home!'
+        secondaryAction={step === STEPS.DESCRIPTION ? undefined : onBack}
+        title='Add your property'
         body={bodyContent}
     />
   )

@@ -14,7 +14,7 @@ export async function POST(
     const body = await request.json();
     const {
         title, description, imageSrc, category, roomCount, bathroomCount, 
-        guestCount, location, price
+        guestCount, location, price, address
     } = body;
 
     const listing = await prisma.listing.create({
@@ -27,6 +27,7 @@ export async function POST(
             bathroomCount,
             guestCount,
             locationValue: location.value,
+            address,
             price: parseInt(price, 10),
             userId: currentUser.id
         }

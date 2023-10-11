@@ -31,8 +31,13 @@ const Navbar: React.FC<NavbarProps> = ({
                  gap-3 
                  md:gap-0
                 '>
+                    <div className='text-xl font-bold gap-5 flex flex-row'>
+                        <p>Title</p>
+                        <p>link</p>
+                        <p>link</p>
+                        <p>link</p>
+                    </div>
                     <Logo />
-                    <Search />
                     <UserMenu currentUser={currentUser} />
                 </div>
                 
