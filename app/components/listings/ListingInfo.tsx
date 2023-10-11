@@ -2,7 +2,7 @@
 
 import useCountries from '@/app/hooks/useCountries';
 import { SafeUser } from '@/app/types';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { IconType } from 'react-icons';
 import Avatar from '../Avatar';
 import ListingCategory from './ListingCategory';
@@ -10,6 +10,10 @@ import dynamic from 'next/dynamic';
 
 const Map = dynamic(() => import('../Map'), {
     ssr: false
+})
+
+const ListingMap = dynamic(() => import('./ListingMap'), {
+  ssr: false
 })
 
 interface ListingInfoProps {
@@ -24,14 +28,18 @@ interface ListingInfoProps {
         description: string;
     } | undefined
     locationValue: string;
+    latitude: number
+    longitude: number
 }
 
 const ListingInfo: React.FC<ListingInfoProps> = ({
-    user, description, guestCount, roomCount, bathroomCount, category, locationValue
+    user, description, guestCount, roomCount, bathroomCount, category, locationValue, latitude, longitude
 }) => {
     const {getByValue} = useCountries();
 
-    const coordinates = getByValue(locationValue)?.latlng;
+    const coordinates_country = getByValue(locationValue)?.latlng;
+    const coordinates: [number, number] = [latitude, longitude]
+
 
   return (
     <div className='col-span-4 flex flex-col gap-8'>

@@ -58,6 +58,8 @@ model Listing {
   guestCount Int 
   locationValue String 
   address String
+  latitude Float @default(0)
+  longitude Float @default(0)
   userId String @db.ObjectId
   price Int
 

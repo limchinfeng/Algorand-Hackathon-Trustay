@@ -50,12 +50,20 @@ const Search = () => {
   }, [guestCount]);
 
   return (
-    <div
-      onClick={searchModal.onOpen}
-      className="border-[1px] w-full md:w-auto py-2 rounded-full shadow-sm
-     hover:shadow-md transition cursor-pointer"
-    >
-      <div className="flex flex-row item-center justify-between text-center">
+    <>
+      <div
+        onClick={searchModal.onOpen}
+        className="flex flex-row justify-center items-center mx-auto border-[1px] md:w-auto py-2 rounded-3xl shadow-sm
+        hover:shadow-md transition cursor-pointer border-black p-5 px-3 gap-5"
+        >
+            <div className="p-1 rounded-full text-black">
+              <BiSearch size={18} />
+            </div>
+            <div className="pr-2 text-black/90">
+              Search for property...
+            </div>
+      </div>
+      <div className="flex flex-row item-center justify-between text-center hidden">
         <div className="flex items-center justify-center text-sm font-semibold px-6">
           {locationLabel}
         </div>
@@ -71,7 +79,7 @@ const Search = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

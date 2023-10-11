@@ -1,6 +1,7 @@
 import prisma from "@/app/libs/prismadb";
 import { NextResponse } from "next/server";
 import getCurrentUser from "@/app/actions/getCurrentUser";
+import getLatLngFromAddress from "@/app/actions/getLatLngFromAddress";
 
 export async function POST(
     request: Request
@@ -17,6 +18,17 @@ export async function POST(
         guestCount, location, price, address
     } = body;
 
+      // Get latitude and longitude from the address
+    let latLng;
+    try {
+        latLng = await getLatLngFromAddress(address);
+    } catch (error) {
+        console.log("[LISTING_LATLNG]", error);
+        return new NextResponse("Internal Error", {status: 500})
+    }
+
+    latLng.lat
+
     const listing = await prisma.listing.create({
         data: {
             title,
@@ -28,6 +40,8 @@ export async function POST(
             guestCount,
             locationValue: location.value,
             address,
+            latitude: latLng.lat,
+            longitude: latLng.lng,
             price: parseInt(price, 10),
             userId: currentUser.id
         }
