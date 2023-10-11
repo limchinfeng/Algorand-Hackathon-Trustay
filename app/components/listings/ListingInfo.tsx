@@ -12,10 +12,6 @@ const Map = dynamic(() => import('../Map'), {
     ssr: false
 })
 
-const ListingMap = dynamic(() => import('./ListingMap'), {
-  ssr: false
-})
-
 interface ListingInfoProps {
     user: SafeUser;
     description: string;
