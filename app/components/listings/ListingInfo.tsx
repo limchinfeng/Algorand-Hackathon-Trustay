@@ -5,8 +5,10 @@ import { SafeUser } from '@/app/types';
 import React, { useEffect, useState } from 'react'
 import { IconType } from 'react-icons';
 import Avatar from '../Avatar';
-import ListingCategory from './ListingCategory';
 import dynamic from 'next/dynamic';
+import Heading from '../Heading';
+import {FiUsers} from "react-icons/fi"
+import {BiBed, BiBath} from "react-icons/bi"
 
 const Map = dynamic(() => import('../Map'), {
     ssr: false
@@ -24,45 +26,65 @@ interface ListingInfoProps {
         description: string;
     } | undefined
     locationValue: string;
-    latitude: number
-    longitude: number
+    latitude: number;
+    longitude: number;
+    title: string;
+    address: string;
 }
 
 const ListingInfo: React.FC<ListingInfoProps> = ({
-    user, description, guestCount, roomCount, bathroomCount, category, locationValue, latitude, longitude
+    user, description, guestCount, roomCount, bathroomCount, category, locationValue, latitude, longitude, title, address
 }) => {
     const {getByValue} = useCountries();
 
-    const coordinates_country = getByValue(locationValue)?.latlng;
     const coordinates: [number, number] = [latitude, longitude]
+
+    const location = getByValue(locationValue);
 
 
   return (
     <div className='col-span-4 flex flex-col gap-8'>
+        <Heading 
+            title={title}
+            address={address}
+            subtitle={`${location?.region}, ${location?.label}`}
+        />
+
         <div className='flex flex-col gap-2'>
-            <div className='text-xl font-semibold flex flex-row items-center gap-2'>
-                <div>Hosted by {user?.name}</div>
-                <Avatar src={user?.image}/>
-            </div>
-            <div className='flex flex-row items-center gap-4 font-light text-neutral-500'>
-                <div>{guestCount} guests</div>
-                <div>{roomCount} rooms</div>
-                <div>{bathroomCount} bathrooms</div>
+            <div className='text-xl font-semibold gap-4'>
+                <div className='text-2xl font-bold'>
+                    Host
+                </div>
+                <div className='flex flex-row gap-2 mt-2'>
+                    <Avatar src={user?.image}/>
+                    <div>{user?.name}</div>
+                </div>
             </div>
         </div>
-        <hr />
-        {category && (
-            <ListingCategory
-                icon={category.icon}
-                label={category.label}
-                description={category.description}
-            />
-        )}
-        <hr />
-        <div className='text-lg font-light text-neutral-500'>
-            {description}
+
+        <div className='flex flex-col gap-2 font-light'>
+            <div className='text-2xl font-bold'>
+                Description
+            </div>
+            <div className='text-lg font-light text-neutral-500'>
+                {description}
+            </div>
+            <div className='flex flex-row gap-8'>
+                <div className='flex flex-row gap-2'>
+                    <FiUsers size={24} />
+                    {guestCount} guests
+                </div>
+                <div className='flex flex-row gap-2'>
+                    <BiBed size={24}/>
+                    {roomCount} rooms
+                </div>
+                <div className='flex flex-row gap-2'>
+                    <BiBath size={24}/>
+                    {bathroomCount} bathrooms
+                </div>
+            </div>
         </div>
-        <hr />
+
         <Map center={coordinates} />
     </div>
   )
