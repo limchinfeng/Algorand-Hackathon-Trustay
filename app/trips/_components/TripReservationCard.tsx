@@ -5,13 +5,13 @@ import { SafeListing, SafeReservation, SafeUser } from "@/app/types";
 import useCountries from "@/app/hooks/useCountries";
 
 import React, { useCallback, useMemo } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { format } from "date-fns";
 import Image from "next/image";
-import HeartButton from "../HeartButton";
-import Button from "../Button";
+import HeartButton from "@/app/components/HeartButton";
+import Button from "@/app/components/Button";
 
-interface ListingCardProps {
+interface TripReservationCardProps {
   data: SafeListing;
   reservation?: SafeReservation;
   onAction?: (id: string) => void;
@@ -21,7 +21,7 @@ interface ListingCardProps {
   currentUser?: SafeUser | null;
 }
 
-const ListingCard: React.FC<ListingCardProps> = ({
+const TripReservationCard: React.FC<TripReservationCardProps> = ({
   data,
   reservation,
   onAction,
@@ -69,7 +69,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
 
   return (
     <div
-      onClick={() => router.push(`listings/${data.id}`)}
+      onClick={() => router.push(`trips/${data.id}/trip/${reservation?.id}`)}
       className="col-span-1 cursor-pointer group"
     >
       <div className="flex flex-col gap-2 w-full">
@@ -84,7 +84,6 @@ const ListingCard: React.FC<ListingCardProps> = ({
             className="absolute top-3 right-3
           "
           >
-            {/* <HeartButton listingId={data.id} currentUser={currentUser} /> */}
           </div>
         </div>
         <div>
@@ -118,15 +117,15 @@ const ListingCard: React.FC<ListingCardProps> = ({
         </div>
         {onAction && actionLabel && (
           <Button 
-          disabled={disabled}
-          small
-              label={actionLabel}
-              onClick={handleCancel}
-              />
-              )}
+            disabled={disabled}
+            small
+            label={actionLabel}
+            onClick={handleCancel}
+          />
+        )}
       </div>
     </div>
   );
 };
 
-export default ListingCard;
+export default TripReservationCard;
