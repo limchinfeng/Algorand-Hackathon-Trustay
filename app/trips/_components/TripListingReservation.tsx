@@ -46,20 +46,23 @@ const TripListingReservation: React.FC<TripListingReservationProps> = ({
 
     const router = useRouter();
     const [deletingId, setDeletingId] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const onDelete = useCallback(() => {
         setDeletingId(params.tripId);
+        setIsLoading(true);
 
         axios.delete(`/api/reservations/${params.tripId}`)
         .then(() => {
             toast.success('Reservation cancelled');
             router.refresh();
-            router.push('/trip');
+            router.push('/trips');
         })
         .catch((error) => {
             toast.error(error?.response?.data?.error);
         })
         .finally(() => {
+            setIsLoading(false);
             setDeletingId('');
         })
     }, [])
@@ -92,7 +95,7 @@ const TripListingReservation: React.FC<TripListingReservationProps> = ({
             <hr />
             <div className='p-4'>
                 <Button 
-                    disabled={disabled}
+                    disabled={isLoading}
                     label="Cancel the reservation"
                     onClick={onDelete}
                     />
