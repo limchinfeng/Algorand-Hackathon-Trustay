@@ -152,7 +152,7 @@ const TripListingClient: React.FC<TripListingClientProps> = ({
                             dateRange={dateRange}
                             onSubmit={() => {}}
                             reservedDates={reservedDates}
-                            
+                            params={params}
                         />
                     </div>
                 </div>

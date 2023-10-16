@@ -15,7 +15,7 @@ const font = Nunito({
 });
 
 export const metadata: Metadata = {
-  title: "Airbnb",
+  title: "Trustay",
   description: "By supershuaifeng",
 };
 

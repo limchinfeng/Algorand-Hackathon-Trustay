@@ -2,12 +2,15 @@
 
 import Button from '@/app/components/Button';
 import Calendar from '@/app/components/inputs/Calendar';
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import { Range } from 'react-date-range';
 import TripCalendar from './TripCalendar';
 import { SafeReservation } from '@/app/types';
 import {LiaMoneyBillSolid} from 'react-icons/lia'
 import { format, parseISO } from 'date-fns';
+import { useRouter } from 'next/navigation';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 interface TripListingReservationProps {
     price: number;
@@ -18,11 +21,12 @@ interface TripListingReservationProps {
     disabled?: boolean;
     reservedDates: Date[];
     total?: GLfloat
-    reservation?: SafeReservation
+    reservation?: SafeReservation;
+    params: {listingId: string; tripId: string}
   }
 
 const TripListingReservation: React.FC<TripListingReservationProps> = ({
-    price, dateRange, totalPrice, onChangeDate, onSubmit, disabled, reservedDates, total, reservation
+    price, dateRange, totalPrice, onChangeDate, onSubmit, disabled, reservedDates, total, reservation, params
 }) => {
     const startDate = reservation?.startDate || 2023-10-23;
     const endDate = reservation?.endDate || 2023-10-23;
@@ -39,6 +43,26 @@ const TripListingReservation: React.FC<TripListingReservationProps> = ({
     const formattedCreateDates = createDate.toLocaleString('en-GB')
     const formattedCreateDate = new Date(formattedCreateDates)
     const formatted_CreateDate = format(formattedCreateDate, 'dd/MM/yy');
+
+    const router = useRouter();
+    const [deletingId, setDeletingId] = useState('');
+
+    const onDelete = useCallback(() => {
+        setDeletingId(params.tripId);
+
+        axios.delete(`/api/reservations/${params.tripId}`)
+        .then(() => {
+            toast.success('Reservation cancelled');
+            router.refresh();
+            router.push('/trip');
+        })
+        .catch((error) => {
+            toast.error(error?.response?.data?.error);
+        })
+        .finally(() => {
+            setDeletingId('');
+        })
+    }, [])
 
 
   return (
@@ -70,7 +94,7 @@ const TripListingReservation: React.FC<TripListingReservationProps> = ({
                 <Button 
                     disabled={disabled}
                     label="Cancel the reservation"
-                    onClick={onSubmit}
+                    onClick={onDelete}
                     />
             </div>
             {/* <div className='p-4 flex flex-row items-center justify-start
