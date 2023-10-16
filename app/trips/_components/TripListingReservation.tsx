@@ -98,7 +98,7 @@ const TripListingReservation: React.FC<TripListingReservationProps> = ({
                     disabled={isLoading}
                     label="Cancel the reservation"
                     onClick={onDelete}
-                    />
+                />
             </div>
             {/* <div className='p-4 flex flex-row items-center justify-start
             font-semibold text-lg gap-5'>

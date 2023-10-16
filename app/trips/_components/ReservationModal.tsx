@@ -9,8 +9,6 @@ interface ModelProps {
   footer?: React.ReactElement;
   actionLabel: string;
   disabled?: boolean;
-  secondaryAction?: () => void;
-  secondaryActionLabel?: string;
 }
 
 import Button from "@/app/components/Button";
@@ -26,8 +24,6 @@ const Modal: React.FC<ModelProps> = ({
   footer,
   actionLabel,
   disabled,
-  secondaryAction,
-  secondaryActionLabel,
 }) => {
   const [showModal, setShowModel] = useState(isOpen);
 
@@ -54,13 +50,7 @@ const Modal: React.FC<ModelProps> = ({
     onSubmit();
   }, [disabled, onSubmit]);
 
-  const handleSecondaryAction = useCallback(() => {
-    if (disabled || !secondaryAction) {
-      return;
-    }
 
-    secondaryAction();
-  }, [disabled, secondaryAction]);
 
   if (!isOpen) {
     return null;
@@ -106,9 +96,6 @@ const Modal: React.FC<ModelProps> = ({
               {/* FOOTER */}
               <div className="flex flex-col gap-2 p-6">
                 <div className="flex flex-row items-center gap-4 w-full">
-                  {secondaryAction && secondaryActionLabel && (
-                    <Button outline disabled={disabled} label={secondaryActionLabel} onClick={handleSecondaryAction}/>
-                  )}
                   <Button disabled={disabled} label={actionLabel} onClick={handleSubmit}/>
                 </div>
                 {footer}
