@@ -5,12 +5,15 @@ import Calendar from '@/app/components/inputs/Calendar';
 import React, { useCallback, useState } from 'react'
 import { Range } from 'react-date-range';
 import TripCalendar from './TripCalendar';
-import { SafeReservation } from '@/app/types';
+import { SafeReservation, SafeUser } from '@/app/types';
 import {LiaMoneyBillSolid} from 'react-icons/lia'
 import { format, parseISO } from 'date-fns';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import ClientOnly from '@/app/components/ClientOnly';
+import CancellationModal from './CancellationModal';
+import useCancellationModal from '@/app/hooks/useCancellationModal';
 
 interface TripListingReservationProps {
     price: number;
@@ -23,10 +26,12 @@ interface TripListingReservationProps {
     total?: GLfloat
     reservation?: SafeReservation;
     params: {listingId: string; tripId: string}
+    listingUser: SafeUser;
+    currentUser: SafeUser | null | undefined;
   }
 
 const TripListingReservation: React.FC<TripListingReservationProps> = ({
-    price, dateRange, totalPrice, onChangeDate, onSubmit, disabled, reservedDates, total, reservation, params
+    price, dateRange, totalPrice, onChangeDate, onSubmit, disabled, reservedDates, total, reservation, params, listingUser, currentUser
 }) => {
     const startDate = reservation?.startDate || 2023-10-23;
     const endDate = reservation?.endDate || 2023-10-23;
@@ -47,6 +52,7 @@ const TripListingReservation: React.FC<TripListingReservationProps> = ({
     const router = useRouter();
     const [deletingId, setDeletingId] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const reservationCancellationModal = useCancellationModal();
 
     const onDelete = useCallback(() => {
         setDeletingId(params.tripId);
@@ -54,6 +60,7 @@ const TripListingReservation: React.FC<TripListingReservationProps> = ({
 
         axios.delete(`/api/reservations/${params.tripId}`)
         .then(() => {
+            reservationCancellationModal.onClose();
             toast.success('Reservation cancelled');
             router.refresh();
             router.push('/trips');
@@ -62,6 +69,7 @@ const TripListingReservation: React.FC<TripListingReservationProps> = ({
             toast.error(error?.response?.data?.error);
         })
         .finally(() => {
+            reservationCancellationModal.onClose();
             setIsLoading(false);
             setDeletingId('');
         })
@@ -69,48 +77,61 @@ const TripListingReservation: React.FC<TripListingReservationProps> = ({
 
 
   return (
-    <div className='gap-4'>
-        <div className='flex flex-col gap-2 font-light'>
-            <div className='text-2xl font-bold'>
-                Booked
-            </div>
-            <div className='flex flex-row justify-between items-center gap-1'>
-                <div className='flex flex-row gap-2 text-xl font-semibold'>
-                    <LiaMoneyBillSolid size={24} /> RM {totalPrice}
+    <>
+        <ClientOnly>
+            <CancellationModal 
+                hostName={listingUser.name}
+                hostHashedId={listingUser.hashedId}
+                renterName={currentUser?.name}
+                renterHashedId={currentUser?.hashedId}
+                totalPrice={totalPrice}
+                onDelete={onDelete}
+                disabled={disabled}
+            />
+        </ClientOnly>
+        <div className='gap-4'>
+            <div className='flex flex-col gap-2 font-light'>
+                <div className='text-2xl font-bold'>
+                    Booked
                 </div>
-                <div className='font-light text-neutral-600'>
-                    Booked at {formatted_CreateDate}
+                <div className='flex flex-row justify-between items-center gap-1'>
+                    <div className='flex flex-row gap-2 text-xl font-semibold'>
+                        <LiaMoneyBillSolid size={24} /> RM {totalPrice}
+                    </div>
+                    <div className='font-light text-neutral-600'>
+                        Booked at {formatted_CreateDate}
+                    </div>
+                </div>
+                <div className='font-light '>
+                    {formatted_StartDate} - {formatted_EndDate} 
                 </div>
             </div>
-            <div className='font-light '>
-                {formatted_StartDate} - {formatted_EndDate} 
+            <div className='bg-white rounded-xl border-[1px] border-neutral-200 overflow-hidden mt-6'>
+                <TripCalendar 
+                    value={dateRange}
+                    reservedDates={reservedDates}
+                    onChange={(value) => {}}
+                    />
+                <hr />
+                <div className='p-4'>
+                    <Button 
+                        disabled={isLoading}
+                        label="Cancel the reservation"
+                        onClick={reservationCancellationModal.onOpen}
+                    />
+                </div>
+                {/* <div className='p-4 flex flex-row items-center justify-start
+                font-semibold text-lg gap-5'>
+                    <div>
+                        Total:
+                    </div>
+                    <div>
+                        RM {totalPrice}
+                    </div>
+                </div> */}
             </div>
         </div>
-        <div className='bg-white rounded-xl border-[1px] border-neutral-200 overflow-hidden mt-6'>
-            <TripCalendar 
-                value={dateRange}
-                reservedDates={reservedDates}
-                onChange={(value) => {}}
-                />
-            <hr />
-            <div className='p-4'>
-                <Button 
-                    disabled={isLoading}
-                    label="Cancel the reservation"
-                    onClick={onDelete}
-                />
-            </div>
-            {/* <div className='p-4 flex flex-row items-center justify-start
-            font-semibold text-lg gap-5'>
-                <div>
-                    Total:
-                </div>
-                <div>
-                    RM {totalPrice}
-                </div>
-            </div> */}
-        </div>
-    </div>
+    </>
   )
 }
 

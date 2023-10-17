@@ -2,18 +2,18 @@
 
 import React, { useCallback, useState } from "react";
 import Button from "@/app/components/Button";
-import ReservationConfirmationModal from "./ReservationConfirmationModal";
-import useReservationModal from "@/app/hooks/useReservationModal";
+import ReservationCancellationModal from "./ReservationCancellationModal";
 import {FaRegUser} from "react-icons/fa";
+import useCancellationModal from "@/app/hooks/useCancellationModal";
 
 
-interface ReservationModalProps {
+interface ReservationModelProps {
   hostName: string | null;
   hostHashedId: string | null;
   renterName: string | null | undefined;
   renterHashedId: string | null | undefined
   totalPrice: number;
-  onSubmit: () => void;
+  onDelete: () => void;
   disabled: boolean | undefined;
 }
 
@@ -46,14 +46,14 @@ Amet dictum sit amet justo donec enim diam. Id aliquet lectus proin nibh nisl. E
 
 `
 
-const ReservationModal = ({
-  hostName, renterName, totalPrice, onSubmit, disabled, hostHashedId, renterHashedId
-}: ReservationModalProps) => {
-  const reservationConfirmationModal = useReservationModal();
+const ReservationModel = ({
+  hostName, renterName, totalPrice, onDelete, disabled, hostHashedId, renterHashedId
+}: ReservationModelProps) => {
+  const reservationCancellationModal = useCancellationModal();
 
   const bodyContent = (
     <div className="flex flex-col items-center justify-center gap-7">
-      <div className="flex flex-col justify-center items-center border-gray-700 border rounded-lg p-5 gap-4 md:w-[80%] w-full">
+      <div className="flex flex-col justify-center items-center border-gray-700 border rounded-lg p-5 gap-4  md:w-[80%] w-full">
         <h1 className="text-2xl font-bold">
           I hereby agree that
         </h1>
@@ -97,7 +97,7 @@ const ReservationModal = ({
             </p>
             <Button
               label="Continue"
-              onClick={onSubmit}
+              onClick={onDelete}
               disabled={disabled}
             />
           </div>
@@ -120,10 +120,10 @@ const ReservationModal = ({
   );
 
   return (
-    <ReservationConfirmationModal
-      isOpen={reservationConfirmationModal.isOpen}
-      title="Rental Agreement"
-      onClose={reservationConfirmationModal.onClose}
+    <ReservationCancellationModal
+      isOpen={reservationCancellationModal.isOpen}
+      title="Rental Cancellation"
+      onClose={reservationCancellationModal.onClose}
       body={bodyContent}
       footer={footerContent}
       disabled={disabled}
@@ -131,4 +131,4 @@ const ReservationModal = ({
   );
 };
 
-export default ReservationModal;
+export default ReservationModel;

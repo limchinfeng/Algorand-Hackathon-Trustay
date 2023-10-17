@@ -32,7 +32,9 @@ const ListingReservation: React.FC<ListingReservationProps> = ({
         <ClientOnly>
             <ReservationModal 
                 hostName={listingUser.name}
+                hostHashedId={listingUser.hashedId}
                 renterName={currentUser?.name}
+                renterHashedId={currentUser?.hashedId}
                 totalPrice={totalPrice}
                 onSubmit={onSubmit}
                 disabled={disabled}

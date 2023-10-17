@@ -3,11 +3,9 @@
 interface ModelProps {
   isOpen?: boolean;
   onClose: () => void;
-  onSubmit: () => void;
   title?: string;
   body?: React.ReactElement;
   footer?: React.ReactElement;
-  actionLabel: string;
   disabled?: boolean;
 }
 
@@ -15,14 +13,12 @@ import Button from "@/app/components/Button";
 import React, { useCallback, useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 
-const Modal: React.FC<ModelProps> = ({
+const ReservationCancellationModal: React.FC<ModelProps> = ({
   isOpen,
   onClose,
-  onSubmit,
   title,
   body,
   footer,
-  actionLabel,
   disabled,
 }) => {
   const [showModal, setShowModel] = useState(isOpen);
@@ -39,22 +35,14 @@ const Modal: React.FC<ModelProps> = ({
     setShowModel(false);
     setTimeout(() => {
       onClose();
-    }, 300);
+    }, 100);
   }, [disabled, onClose]);
-
-  const handleSubmit = useCallback(() => {
-    if (disabled) {
-      return;
-    }
-
-    onSubmit();
-  }, [disabled, onSubmit]);
-
 
 
   if (!isOpen) {
     return null;
   }
+  
   return (
     <>
       <div
@@ -62,7 +50,7 @@ const Modal: React.FC<ModelProps> = ({
         fixed inset-0 z-50 outline-none focus:outline-none bg-neutral-800/70"
       >
         <div
-          className="relative w-full md:w-4/5 my-6 mx-auto
+          className="relative w-full md:w-[90%] my-6 mx-auto
             h-full lg:h-auto md:h-auto"
         >
           {/* CONTENT */}
@@ -87,17 +75,19 @@ const Modal: React.FC<ModelProps> = ({
                 >
                   <IoMdClose size={18} />
                 </button>
-                <div className="text-lg font-semibold">{title}</div>
+                <div className="text-4xl font-extrabold">{title}</div>
               </div>
 
               {/* BODY */}
-              <div className="relative p-6 flex-auto">{body}</div>
+              <div className="relative p-6 flex flex-col items-center justify-center w-4/5 mx-auto">
+                {body}
+              </div>
 
               {/* FOOTER */}
-              <div className="flex flex-col gap-2 p-6">
-                <div className="flex flex-row items-center gap-4 w-full">
+              <div className="flex flex-col gap-2 p-2 pt-2">
+                {/* <div className="flex flex-row items-center gap-4 w-full">
                   <Button disabled={disabled} label={actionLabel} onClick={handleSubmit}/>
-                </div>
+                </div> */}
                 {footer}
               </div>
             </div>
@@ -108,4 +98,4 @@ const Modal: React.FC<ModelProps> = ({
   );
 };
 
-export default Modal;
+export default ReservationCancellationModal;

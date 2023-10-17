@@ -35,7 +35,7 @@ const ReservationConfirmationModal: React.FC<ModelProps> = ({
     setShowModel(false);
     setTimeout(() => {
       onClose();
-    }, 300);
+    }, 100);
   }, [disabled, onClose]);
 
 
@@ -46,7 +46,7 @@ const ReservationConfirmationModal: React.FC<ModelProps> = ({
   return (
     <>
       <div
-        className="justify-center items-center flex overflow-x-hidden overflow-y-hidden
+        className="justify-center items-center flex overflow-x-hidden md:overflow-y-hidden overflow-y-auto
         fixed inset-0 z-50 outline-none focus:outline-none bg-neutral-800/70"
       >
         <div
@@ -61,7 +61,7 @@ const ReservationConfirmationModal: React.FC<ModelProps> = ({
                 `}
           >
             <div
-              className="translate h-full lg:h-auto md:h-auto border-0 rounded-lg
+              className="translate h-auto lg:h-auto md:h-auto border-0 rounded-lg
                     shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none"
             >
               {/*  HEADER */}

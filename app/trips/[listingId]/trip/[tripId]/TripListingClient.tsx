@@ -68,50 +68,6 @@ const TripListingClient: React.FC<TripListingClientProps> = ({
         return dates;
     }, [reservations])
 
-
-    // const onCreateReservation = useCallback(() => {
-    //     if(!currentUser) {
-    //         return loginModal.onOpen();
-    //     }
-
-    //     setIsLoading(true);
-
-    //     axios.post('/api/reservations', {
-    //         totalPrice,
-    //         startDate: dateRange.startDate,
-    //         endDate: dateRange.endDate,
-    //         listingId: listing?.id
-    //     })
-    //     .then(() => {
-    //         toast.success('Listing reserved!');
-    //         setDateRange(initialDateRange);
-    //         router.push('/trips');
-    //         router.refresh();
-    //     })
-    //     .catch(() => {
-    //         toast.error('Something went wrong');
-    //     })
-    //     .finally(() => {
-    //         setIsLoading(false);
-    //     })
-
-    // }, [totalPrice, dateRange, listing?.id, router, currentUser, loginModal])
-
-    // useEffect(() => {
-    //     if(dateRange.startDate && dateRange.endDate) {
-    //         const dayCount = differenceInCalendarDays(
-    //             dateRange.endDate,
-    //             dateRange.startDate
-    //         );
-
-    //         if(dayCount && listing.price) {
-    //             setTotalPrice(dayCount * listing.price);
-    //         } else {
-    //             setTotalPrice(listing.price);
-    //         }
-    //     }
-    // }, [dateRange, listing.price]);
-
     const category = useMemo(() => {
         return categories.find((item) =>
             item.label === listing.category ) 
@@ -153,6 +109,8 @@ const TripListingClient: React.FC<TripListingClientProps> = ({
                             onSubmit={() => {}}
                             reservedDates={reservedDates}
                             params={params}
+                            listingUser={listing.user}
+                            currentUser={currentUser}
                         />
                     </div>
                 </div>
