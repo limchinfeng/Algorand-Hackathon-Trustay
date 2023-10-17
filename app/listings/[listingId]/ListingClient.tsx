@@ -6,6 +6,7 @@ import ListingInfo from '@/app/components/listings/ListingInfo';
 import ListingReservation from '@/app/components/listings/ListingReservation';
 import { categories } from '@/app/components/navbar/Categories';
 import useLoginModal from '@/app/hooks/useLoginModal';
+import useReservationModal from '@/app/hooks/useReservationModal';
 import { SafeListing, SafeReservation, SafeUser } from '@/app/types';
 import axios from 'axios';
 import { eachDayOfInterval, differenceInCalendarDays } from 'date-fns';
@@ -32,7 +33,7 @@ interface ListingClientProps {
 const ListingClient: React.FC<ListingClientProps> = ({
     listing, currentUser, reservations = []
 }) => {
-
+    const reservationConfirmationModal = useReservationModal();
     const loginModal = useLoginModal();
     const router = useRouter();
 
@@ -69,6 +70,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
             listingId: listing?.id
         })
         .then(() => {
+            reservationConfirmationModal.onClose();
             toast.success('Listing reserved!');
             setDateRange(initialDateRange);
             router.push('/trips');
@@ -79,6 +81,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
         })
         .finally(() => {
             setIsLoading(false);
+            reservationConfirmationModal.onClose();
         })
 
     }, [totalPrice, dateRange, listing?.id, router, currentUser, loginModal])
@@ -138,6 +141,8 @@ const ListingClient: React.FC<ListingClientProps> = ({
                             onSubmit={onCreateReservation}
                             disabledDates={disabledDates}
                             disabled={isLoading}
+                            listingUser={listing.user}
+                            currentUser={currentUser}
                         />
                     </div>
                 </div>
