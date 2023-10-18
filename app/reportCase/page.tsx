@@ -84,7 +84,7 @@ const ReportCase = () => {
                                     className="bg-zinc-300 p-2 rounded-lg hover:bg-primary "
                                     onClick={onImageRemoveAll}>Remove all images</button>
                                 {imageList.map((image, index) => (
-                                    <div key={index} className="image-item">
+                                    <div key={index} className="flex flex-row m-3">
                                         <img src={image.dataURL} alt="" width="100" />
                                         <div className="image-item__btn-wrapper">
                                             <button
