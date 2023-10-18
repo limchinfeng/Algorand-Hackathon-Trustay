@@ -6,6 +6,7 @@ export const config = {
         "/reservations",
         "/properties",
         "/favorites",
-        "/claim",
+        "/claimReport",
+        "/reportCase",
     ]
 }
