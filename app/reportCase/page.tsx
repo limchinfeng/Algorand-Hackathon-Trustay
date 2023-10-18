@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 import ImageUploading, { ImageListType } from "react-images-uploading";
 
 
@@ -31,6 +32,13 @@ const ReportCase = () => {
         updatedAction[index].color = updatedAction[index].color === false ? true : false;
         setAction(updatedAction);
     };
+
+    const handleToast = () => {
+        toast.success('Successfully Submit!')
+
+    };
+
+
 
     return (
         <div className='mx-20'>
@@ -109,8 +117,9 @@ const ReportCase = () => {
                         )
                     })}
                 </div>
-                <div>
-                    <p className="text-center"><a href="/Home" className="bg-gray-500 hover:bg-primary text-white font-bold rounded p-2">{"Submit"}</a></p>
+                <div className="my-6">
+
+                    <p className="text-center"><a href="/" onClick={handleToast} className="bg-gray-500 hover:bg-primary text-white font-bold rounded p-2 ">{"Submit"}</a></p>
                     <p className='text-center text-red-500 mt-3'>Please note that you are unable to cash out the deposit but to purchase the relevant services directly only.</p>
                 </div>
             </div>
