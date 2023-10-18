@@ -33,7 +33,7 @@ const ReportCase = () => {
         setAction(updatedAction);
     };
 
-    const handleToast = () => {
+    const handleSubmit = () => {
         toast.success('Successfully Submit!')
 
     };
@@ -119,7 +119,7 @@ const ReportCase = () => {
                 </div>
                 <div className="my-6">
 
-                    <p className="text-center"><a href="/" onClick={handleToast} className="bg-gray-500 hover:bg-primary text-white font-bold rounded p-2 ">{"Submit"}</a></p>
+                    <p className="text-center"><a href="/" onClick={handleSubmit} className="bg-gray-500 hover:bg-primary text-white font-bold rounded p-2 ">{"Submit"}</a></p>
                     <p className='text-center text-red-500 mt-3'>Please note that you are unable to cash out the deposit but to purchase the relevant services directly only.</p>
                 </div>
             </div>
