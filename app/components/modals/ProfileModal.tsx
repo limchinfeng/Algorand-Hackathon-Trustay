@@ -18,18 +18,22 @@ import Avatar from "../Avatar";
 import Image from "next/image";
 import avatar from '@/public/images/placeholder.jpg';
 import {BiCopy} from "react-icons/bi";
-import {AiOutlineCheckCircle} from "react-icons/ai"
+import {AiOutlineCheckCircle, AiOutlineDelete} from "react-icons/ai"
+import { report } from "process";
+import { useRouter } from "next/navigation";
 
 interface ProfileModalProps {
   currentUser?: SafeUser | null;
+  reports: { id: string; userId: string; listingId: string; createdAt: Date; }[];
 }
 
 const ProfileModal = ({
-  currentUser
+  currentUser, reports
 }: ProfileModalProps) => {
   const profileModal = useProfileModal();
   const [isLoading, setIsLoading] = useState(false);
   const [copied, setCopied] = useState(false);
+  const router = useRouter();
 
   const userName = currentUser?.name || "";
   const userEmail = currentUser?.email || "";
@@ -47,22 +51,33 @@ const ProfileModal = ({
     }, 2000);
   }
 
-  // const onSubmit: SubmitHandler<FieldValues> = (data) => {
-  //   setIsLoading(true);
+  const dateArray: Date[] = reports.map((report) => new Date(report.createdAt));
+  const dateStringArray: string[] = dateArray.map((date) =>
+    date.toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: '2-digit',
+      year: '2-digit',
+    })
+  );
 
-  //   axios.post('/api/register', data)
-  //   .then(() => {
-  //     toast.success('Registered!');
-  //     registerModal.onClose();
-  //     loginModal.onOpen();
-  //   })
-  //   .catch((error) => {
-  //     toast.error(error);
-  //   })
-  //   .finally(() => {
-  //     setIsLoading(false);
-  //   })
-  // }
+  const onDelete = (id: string) => {
+    setIsLoading(true);
+
+    axios.delete(`/api/reports/${id}`)
+    .then(() => {
+        toast.success('Report cancelled');
+        router.refresh();
+        setTimeout(() => {
+          profileModal.onOpen();
+        }, 2000);
+    })
+    .catch((error) => {
+        toast.error("Something went wrong!");
+    })
+    .finally(() => {
+        setIsLoading(false);
+    })
+  }
 
 
   const bodyContent = (
@@ -111,8 +126,45 @@ const ProfileModal = ({
   )
 
   const footerContent = (
-    <div className="flex flex-col gap-4 mt-3">
-      g
+    <div className="flex flex-col justify-start items-center w-full ">
+      <h1 className="text-2xl font-bold">
+        Report 
+      </h1>
+      <div className="flex flex-col justify-center items-center gap-1 mt-3 w-2/3 h-40 overflow-y-scroll p-5">
+
+        {reports.length >= 3 && 
+          <div className="h-10 mb-16" />
+        }
+
+
+        {reports.map((report, index) => (
+          <div 
+            className="flex items-center border border-primary w-full mt-2"
+            key={report.id}
+          >
+            <div className="h-10 w-10 bg-primary text-white hover:bg-primary/90 flex  justify-center items-center">
+              {index + 1}
+            </div>
+            <div className="w-full p-2 flex flex-row justify-between items-center">
+              <div>
+                {report.id}
+              </div>
+              <div className="text-light text-xs font-grey-800">
+                {dateStringArray[index]}
+              </div>  
+            </div>
+            <button 
+              disabled={isLoading} 
+              onClick={() => onDelete(report.id)} 
+              className="h-10 w-10 bg-primary text-white hover:bg-primary/90 flex  justify-center items-center"
+            >
+              <>
+                <AiOutlineDelete />
+              </>
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 

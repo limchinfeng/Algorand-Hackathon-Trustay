@@ -11,6 +11,7 @@ import getCurrentUser from "./actions/getCurrentUser";
 import SearchModal from "./components/modals/SearchModal";
 import ReservationModal from "./listings/[listingId]/_components/ReservationModal";
 import ProfileModal from "./components/modals/ProfileModal";
+import prismadb from "./libs/prismadb";
 
 const font = Nunito({
   subsets: ["latin"],
@@ -27,6 +28,13 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const currentUser = await getCurrentUser();
+
+  const reports = await prismadb.report.findMany({
+    where: {
+      userId: currentUser?.id
+    }
+  })
+
   return (
     <html lang="en">
       <body className={font.className}>
@@ -36,9 +44,14 @@ export default async function RootLayout({
           <RentModal />
           <LoginModal />
           <RegisterModal />
-          <ProfileModal currentUser={currentUser} />
+          <ProfileModal 
+            currentUser={currentUser}             
+            reports={reports} 
+          />
           {/* <ReservationModal /> */}
-          <Navbar currentUser={currentUser} />
+          <Navbar 
+            currentUser={currentUser}
+          />
         </ClientOnly>
         <div className="pb-20 pt-28">
           {children}

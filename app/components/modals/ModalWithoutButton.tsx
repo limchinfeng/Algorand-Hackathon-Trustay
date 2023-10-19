@@ -91,7 +91,7 @@ const ModalWithoutButton: React.FC<ModelProps> = ({
               <div className="relative p-6 flex-auto">{body}</div>
 
               {/* FOOTER  */}
-              <div className="flex flex-col px-6 pb-6">
+              <div className="relative p-6 flex-auto">
                 {footer}
               </div>
             </div>
