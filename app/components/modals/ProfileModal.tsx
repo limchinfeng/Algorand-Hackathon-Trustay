@@ -149,7 +149,7 @@ const ProfileModal = ({
               <div>
                 {report.id}
               </div>
-              <div className="text-light text-xs font-grey-800">
+              <div className="text-light text-xs text-gray-600">
                 {dateStringArray[index]}
               </div>  
             </div>
