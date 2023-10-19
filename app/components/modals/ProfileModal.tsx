@@ -132,7 +132,7 @@ const ProfileModal = ({
       </h1>
       <div className="flex flex-col justify-center items-center gap-1 mt-3 w-2/3 h-40 overflow-y-scroll p-5">
 
-        {reports.length >= 3 && 
+        {reports.length >= 4 && 
           <div className="h-10 mb-16" />
         }
 
