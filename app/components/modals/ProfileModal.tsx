@@ -1,25 +1,16 @@
 "use client";
 
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import { FcGoogle } from "react-icons/fc";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import useLoginModal from "@/app/hooks/useLoginModal";
-import Modal from "./Modal";
 import Heading from "../Heading";
-import Input from "../inputs/Input";
 import { toast } from "react-hot-toast";
-import Button from "../Button";
-import { signIn } from "next-auth/react";
 import useProfileModal from "@/app/hooks/useProfileModal";
 import { SafeUser } from "@/app/types";
 import ModalWithoutButton from "./ModalWithoutButton";
-import Avatar from "../Avatar";
 import Image from "next/image";
 import avatar from '@/public/images/placeholder.jpg';
 import {BiCopy} from "react-icons/bi";
 import {AiOutlineCheckCircle, AiOutlineDelete} from "react-icons/ai"
-import { report } from "process";
 import { useRouter } from "next/navigation";
 
 interface ProfileModalProps {
@@ -130,41 +121,50 @@ const ProfileModal = ({
       <h1 className="text-2xl font-bold">
         Report 
       </h1>
-      <div className="flex flex-col justify-center items-center gap-1 mt-3 w-2/3 h-40 overflow-y-scroll p-5">
 
-        {reports.length >= 4 && 
-          <div className="h-10 mb-16" />
-        }
+      {reports.length === 0 ? <>
+        <div className="flex flex-col justify-center items-center w-2/3 p-5">
+          <h1 className=" text-light text-gray-600">
+            No reports
+          </h1>
+        </div>
+      </> : <>
+        <div className="flex flex-col justify-center items-center gap-1 mt-3 w-2/3 h-40 overflow-y-scroll p-5">
+
+          {reports.length >= 4 && 
+            <div className="h-10 mb-16" />
+          }
 
 
-        {reports.map((report, index) => (
-          <div 
-            className="flex items-center border border-primary w-full mt-2"
-            key={report.id}
-          >
-            <div className="h-10 w-10 bg-primary text-white hover:bg-primary/90 flex  justify-center items-center">
-              {index + 1}
-            </div>
-            <div className="w-full p-2 flex flex-row justify-between items-center">
-              <div>
-                {report.id}
-              </div>
-              <div className="text-light text-xs text-gray-600">
-                {dateStringArray[index]}
-              </div>  
-            </div>
-            <button 
-              disabled={isLoading} 
-              onClick={() => onDelete(report.id)} 
-              className="h-10 w-10 bg-primary text-white hover:bg-primary/90 flex  justify-center items-center"
+          {reports.map((report, index) => (
+            <div 
+              className="flex items-center border border-primary w-full mt-2"
+              key={report.id}
             >
-              <>
-                <AiOutlineDelete />
-              </>
-            </button>
-          </div>
-        ))}
-      </div>
+              <div className="h-10 w-10 bg-primary text-white hover:bg-primary/90 flex  justify-center items-center">
+                {index + 1}
+              </div>
+              <div className="w-full p-2 flex flex-row justify-between items-center">
+                <div>
+                  {report.id}
+                </div>
+                <div className="text-light text-xs text-gray-600">
+                  {dateStringArray[index]}
+                </div>  
+              </div>
+              <button 
+                disabled={isLoading} 
+                onClick={() => onDelete(report.id)} 
+                className="h-10 w-10 bg-primary text-white hover:bg-primary/90 flex  justify-center items-center"
+              >
+                <>
+                  <AiOutlineDelete />
+                </>
+              </button>
+            </div>
+          ))}
+        </div>
+      </>}
     </div>
   );
 

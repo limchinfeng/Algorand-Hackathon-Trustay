@@ -6,7 +6,7 @@ import Logo from './Logo';
 import UserMenu from './UserMenu';
 import { SafeUser } from "@/app/types";
 import useProfileModal from '@/app/hooks/useProfileModal';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import useLoginModal from '@/app/hooks/useLoginModal';
 
 
@@ -21,6 +21,9 @@ const Navbar: React.FC<NavbarProps> = ({
     const profileModal = useProfileModal();
     const loginModal = useLoginModal();
     const router = useRouter();
+    
+    const pathname = usePathname();
+    const containsHost = pathname?.includes('/host');
 
     const onProfile = useCallback(() => {
         if (!currentUser) {
@@ -54,25 +57,42 @@ const Navbar: React.FC<NavbarProps> = ({
                             >
                                 Profile
                             </div>
-                            <p
-                                className='cursor-pointer'
-                                onClick={() => router.push("/trips")}
-                            >
-                                trips
-                            </p>
-                            <p
-                                className='cursor-pointer'
-                                onClick={() => router.push("/claimReport")}
-                            >
-                                reports
-                            </p>
+                            {!containsHost ? <>
+                                <p
+                                    className='cursor-pointer'
+                                    onClick={() => router.push("/trips")}
+                                >
+                                    trips
+                                </p>
+                                <p
+                                    className='cursor-pointer'
+                                    onClick={() => router.push("/favorites")}
+                                >
+                                    favorites
+                                </p>
+                            </>
+                            : <>
+                                <p
+                                    className='cursor-pointer'
+                                    onClick={() => router.push("/host/reservations")}
+                                >
+                                    reservation
+                                </p>
+                                <p
+                                    className='cursor-pointer'
+                                    onClick={() => router.push("/host/claimReport")}
+                                >
+                                    reports
+                                </p>
+                            </>}
+
                         </div>
                         <Logo />
-                        <UserMenu currentUser={currentUser} />
+                        <UserMenu 
+                            currentUser={currentUser} 
+                        />
                     </div>
-                    
                 </Container>
-
             </div>
         </div>
     </div>
