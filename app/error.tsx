@@ -12,7 +12,7 @@ const Error: React.FC<ErrorStateProps> = ({
 }) => {
     useEffect(() => {
         console.error(error);
-    }, []);
+    }, [error]);
 
   return (
     <EmptyState 
