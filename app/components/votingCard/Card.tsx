@@ -38,10 +38,12 @@ export default function Card() {
             className="flex flex-col gap-2 group" 
         >
             <div className="overflow-hidden rounded-xl">
-                <img 
+                <Image 
                     src={voting.photo} 
+                    width="100"
+                    height="100"
                     alt="photoCover"
-                    className="rounded-lg group-hover:scale-110 transition "
+                    className="w-full rounded-lg group-hover:scale-110 transition "
                 />
             </div>
             <div className="flex flex-col gap-1 text-justify">

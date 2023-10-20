@@ -12,6 +12,7 @@ import Input from "../inputs/Input";
 import { toast } from "react-hot-toast";
 import ImageUploading, { ImageListType } from "react-images-uploading";
 import Button from "../Button";
+import Image from "next/image";
 
 const RegisterModal = () => {
   const registerModal = useRegisterModal();
@@ -118,7 +119,7 @@ const RegisterModal = () => {
           </> : <>
             {imageList.map((image, index) => (
               <div key={index} className="flex flex-row m-3">
-                <img src={image.dataURL} alt="" width="50" />
+                <Image src={image.dataURL || ""} alt="" width="50" />
                 <div className="image-item__btn-wrapper ml-5 flex flex-row w-64 gap-5 h-10 items-center justify-center ">
                   <Button 
                     label="Update"

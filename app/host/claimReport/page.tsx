@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import ImageUploading, { ImageListType } from "react-images-uploading";
 import useProfileModal from "../../hooks/useProfileModal";
 import Button from "../../components/Button";
+import Image from "next/image";
 
 export default function ClaimReport() {
   const [hasMounted, setHasMounted] = useState(false);
@@ -185,7 +186,7 @@ export default function ClaimReport() {
                   </button>
                   {imageList.map((image, index) => (
                     <div key={index} className="flex flex-row m-3">
-                      <img src={image.dataURL} alt="" width="100" />
+                      <Image src={image.dataURL || ""} alt="" width="100" height="100" />
                       <div className="image-item__btn-wrapper">
                         <button
                           className="bg-zinc-300 p-1 rounded-lg mr-3 hover:bg-primary font-light font-base"
