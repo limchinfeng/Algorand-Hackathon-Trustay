@@ -2,8 +2,7 @@
 
 import React, { useCallback, useState } from "react";
 import axios from "axios";
-import { AiFillGithub } from "react-icons/ai";
-import { FcGoogle } from "react-icons/fc";
+
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import useLoginModal from "@/app/hooks/useLoginModal";
@@ -11,8 +10,8 @@ import Modal from "./Modal";
 import Heading from "../Heading";
 import Input from "../inputs/Input";
 import { toast } from "react-hot-toast";
+import ImageUploading, { ImageListType } from "react-images-uploading";
 import Button from "../Button";
-import { signIn } from "next-auth/react";
 
 const RegisterModal = () => {
   const registerModal = useRegisterModal();
@@ -27,9 +26,19 @@ const RegisterModal = () => {
     defaultValues: {
       name: "",
       email: "",
+      ic: "",
       password: "",
     },
   });
+
+  const [images, setImages] = useState([]);
+  const onChange = (
+    imageList: ImageListType,
+    addUpdateIndex: number[] | undefined
+  ) => {
+    console.log(imageList, addUpdateIndex);
+    setImages(imageList as never[]);
+  };
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
@@ -76,6 +85,60 @@ const RegisterModal = () => {
         required
       />
       <Input
+        id="ic"
+        label="IC"
+        disabled={isLoading}
+        register={register}
+        errors={errors}
+        required
+      />
+      <ImageUploading
+        value={images}
+        onChange={onChange}
+        maxNumber={1}
+      >
+        {({
+          imageList,
+          onImageUpload,
+          onImageRemoveAll,
+          onImageUpdate,
+          onImageRemove,
+          isDragging,
+          dragProps,
+        }) => (
+          <div className="">
+           {imageList.length === 0 ? <>
+            <div className="w-32">
+              <Button 
+                label="Upload IC"
+                onClick={onImageUpload}
+                outline          
+              />
+            </div>
+          </> : <>
+            {imageList.map((image, index) => (
+              <div key={index} className="flex flex-row m-3">
+                <img src={image.dataURL} alt="" width="50" />
+                <div className="image-item__btn-wrapper ml-5 flex flex-row w-64 gap-5 h-10 items-center justify-center ">
+                  <Button 
+                    label="Update"
+                    onClick={() => onImageUpdate(index)}
+                    outline
+                  />
+                  <Button 
+                    label="Remove"
+                    onClick={() => onImageRemove(index)}
+                    outline                  
+                  />
+                </div>
+              </div>
+            ))}
+          </> } 
+
+          </div>
+        )}
+      </ImageUploading>
+      <Input
         id="password"
         label="Password"
         type="password"
@@ -88,16 +151,9 @@ const RegisterModal = () => {
   )
 
   const footerContent = (
-    <div className="flex flex-col gap-4 mt-3">
+    <div className="flex flex-col gap-4 mt-1">
       <hr />
-      <Button
-        outline
-        label="Continue with Google"
-        icon={FcGoogle}
-        onClick={() => signIn('google')}
-      />
-
-      <div className="text-neutral-500 text-center mt-4 font-light">
+      <div className="text-neutral-500 text-center font-light">
         <div className="justify-center flex flex-row items-center gap-2">
           <div>
             Already have an account?

@@ -8,8 +8,6 @@ import {
   SubmitHandler, 
   useForm
 } from "react-hook-form";
-import { FcGoogle } from "react-icons/fc";
-import { AiFillGithub } from "react-icons/ai";
 import { useRouter } from "next/navigation";
 
 import useRegisterModal from "@/app/hooks/useRegisterModal";
@@ -18,7 +16,6 @@ import useLoginModal from "@/app/hooks/useLoginModal";
 import Modal from "./Modal";
 import Input from "../inputs/Input";
 import Heading from "../Heading";
-import Button from "../Button";
 
 const LoginModal = () => {
   const router = useRouter();
@@ -94,16 +91,10 @@ const LoginModal = () => {
   )
 
   const footerContent = (
-    <div className="flex flex-col gap-4 mt-3">
+    <div className="flex flex-col gap-4 mt-1">
       <hr />
-      <Button 
-        outline 
-        label="Continue with Google"
-        icon={FcGoogle}
-        onClick={() => signIn('google')}
-      />
       <div className="
-      text-neutral-500 text-center mt-4 font-light">
+      text-neutral-500 text-center font-light">
         <p>First time using Trustay?
           <span 
             onClick={onToggle} 
