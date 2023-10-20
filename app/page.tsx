@@ -6,14 +6,18 @@ import Container from './components/Container'
 import EmptyState from './components/EmptyState';
 import ListingCard from './components/listings/ListingCard';
 import Search from './components/navbar/Search';
+import Card from './components/votingCard/Card';
+import { useState } from 'react';
 
 interface HomeProps {
   searchParams: IListingsParams
 }
 
+
 const Home = async ({ searchParams }: HomeProps) => {
   const listings = await getListings(searchParams);
   const currentUser = await getCurrentUser();
+
 
   if (listings.length === 0) {
     return (
@@ -22,6 +26,8 @@ const Home = async ({ searchParams }: HomeProps) => {
       </ClientOnly>
     )
   }
+
+
 
   return (
     <ClientOnly>
@@ -47,9 +53,7 @@ const Home = async ({ searchParams }: HomeProps) => {
             <h1 className='text-xl text-primary font-bold'>
               Community Voting
             </h1>
-            <div className='border-primary border p-2 rounded-lg h-full'>
-              supershuaifeng
-            </div>
+            <Card />
           </div>
         </div>
       </Container>
