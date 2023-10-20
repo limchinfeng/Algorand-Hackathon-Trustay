@@ -8,6 +8,7 @@ export const config = {
         "/favorites",
         "/claimReport",
         "/reportCase",
+        "/voting",
         "/host",
         "/host/reservations",
         "/host/properties",
