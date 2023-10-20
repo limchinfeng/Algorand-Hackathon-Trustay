@@ -1,9 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+
+
 
 
 export default function Card() {
+    const router = useRouter();
+    const handleView = () => {
+        router.push("/voting");
+    };
     const [votingData, setvotingData] = useState<{ photo: string; title: string; desc: string }[]>
         ([
             {
@@ -34,7 +41,7 @@ export default function Card() {
                         <div className='mb-4'>
                             <h1 className="text-l font-extrabold ">{voting.title}</h1>
                             <p className="text-sm">{voting.desc}</p>
-                            <p className="text-center"><button className="bg-zinc-300 p-1 w-full rounded-lg hover:bg-primary font-light font-base" >View More to Vote</button></p>
+                            <p className="text-center"><button onClick={handleView} className="bg-zinc-300 p-1 w-full rounded-lg hover:bg-primary font-light font-base" >View More to Vote</button></p>
                         </div>
 
                     </div>
