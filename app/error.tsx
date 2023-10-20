@@ -7,7 +7,7 @@ interface ErrorStateProps {
     error: Error
 }
 
-const error: React.FC<ErrorStateProps> = ({
+const Error: React.FC<ErrorStateProps> = ({
     error
 }) => {
     useEffect(() => {
@@ -22,4 +22,4 @@ const error: React.FC<ErrorStateProps> = ({
   )
 }
 
-export default error
+export default Error
