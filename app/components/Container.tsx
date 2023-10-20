@@ -3,16 +3,16 @@
 import React from 'react'
 
 interface ContainerProps {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }
 
 const Container: React.FC<ContainerProps> = ({
-    children
+  children
 }) => {
   return (
     <div
-        className='
-         //max-w-[250px]
+      className='
+         //max-w-[250px] 
          mx-auto
          xl:px-20
          md:px-10
