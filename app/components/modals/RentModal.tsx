@@ -99,6 +99,7 @@ const RentModal = () => {
             reset();
             setStep(STEPS.DESCRIPTION);
             rentModal.onClose();
+            router.push("/host/properties")
         })
         .catch(() => {
             toast.error('Something went wrong');

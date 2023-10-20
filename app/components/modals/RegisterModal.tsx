@@ -119,7 +119,7 @@ const RegisterModal = () => {
           </> : <>
             {imageList.map((image, index) => (
               <div key={index} className="flex flex-row m-3">
-                <Image src={image.dataURL || ""} alt="" width="50" />
+                <Image src={image.dataURL || ""} alt="" width="50" height="50"/>
                 <div className="image-item__btn-wrapper ml-5 flex flex-row w-64 gap-5 h-10 items-center justify-center ">
                   <Button 
                     label="Update"
