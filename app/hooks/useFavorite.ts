@@ -23,31 +23,31 @@ const useFavorite = ({
         return list.includes(listingId);
     }, [currentUser, listingId]);
 
-    const toggleFavorite = useCallback(async(
+    const toggleFavorite = useCallback((
         e: React.MouseEvent<HTMLDivElement>
     ) => {
         e.stopPropagation();
 
-        if(!currentUser) {
+        if (!currentUser) {
             return loginModal.onOpen();
         }
 
         try {
             let request;
 
-            if(hasFavorited) {
+            if (hasFavorited) {
                 request = () => axios.delete(`/api/favorites/${listingId}`);
             } else {
                 request = () => axios.post(`/api/favorites/${listingId}`);
             }
 
-            await request();
+            request();
             router.refresh();
             toast.success('Success');
         } catch (error) {
             toast.error("Something went wrong");
         }
-    },[currentUser, hasFavorited, listingId, loginModal, router]);
+    }, [currentUser, hasFavorited, listingId, loginModal, router]);
 
     return {
         hasFavorited, toggleFavorite

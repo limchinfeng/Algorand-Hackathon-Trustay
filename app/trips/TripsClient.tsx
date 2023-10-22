@@ -15,7 +15,7 @@ interface TripsClientProps {
     currentUser?: SafeUser | null;
 }
 
-const TripsClient: React.FC<TripsClientProps> = async ({
+const TripsClient: React.FC<TripsClientProps> = ({
     reservations, currentUser
 }) => {
 
@@ -27,44 +27,44 @@ const TripsClient: React.FC<TripsClientProps> = async ({
         setDeletingId(id);
 
         axios.delete(`/api/reservations/${id}`)
-        .then(() => {
-            reservationCancellationModal.onClose();
-            toast.success('Reservation cancelled');
-            router.refresh();
-        })
-        .catch((error) => {
-            toast.error(error?.response?.data?.error);
-        })
-        .finally(() => {
-            reservationCancellationModal.onClose();
-            setDeletingId('');
-        })
+            .then(() => {
+                reservationCancellationModal.onClose();
+                toast.success('Reservation cancelled');
+                router.refresh();
+            })
+            .catch((error) => {
+                toast.error(error?.response?.data?.error);
+            })
+            .finally(() => {
+                reservationCancellationModal.onClose();
+                setDeletingId('');
+            })
     }, [router])
 
-  return (
+    return (
         <Container>
-            <Heading 
+            <Heading
                 title='Trips'
                 subtitle="Where you've been and where you're going"
-                />
+            />
             <div className='mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3
                 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8
                 '>
                 {reservations.map((reservation) => (
-                        <TripReservationCard 
-                            key={reservation.id}
-                            data={reservation.listing}
-                            reservation={reservation}
-                            actionId={reservation.id}
-                            onAction={onCancel}
-                            disabled={deletingId === reservation.id}
-                            actionLabel='Cancel reservation'
-                            currentUser={currentUser}
-                        />
+                    <TripReservationCard
+                        key={reservation.id}
+                        data={reservation.listing}
+                        reservation={reservation}
+                        actionId={reservation.id}
+                        onAction={onCancel}
+                        disabled={deletingId === reservation.id}
+                        actionLabel='Cancel reservation'
+                        currentUser={currentUser}
+                    />
                 ))}
             </div>
         </Container>
-  )
+    )
 }
 
 export default TripsClient

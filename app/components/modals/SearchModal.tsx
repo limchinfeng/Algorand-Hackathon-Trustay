@@ -38,7 +38,7 @@ const SearchModal = () => {
     // const Map = useMemo(() => dynamic(() => import('../Map'), {
     //     ssr: false,
     // }), [location])
-    
+
     const onBack = useCallback(() => {
         setStep((value) => value - 1);
     }, []);
@@ -47,14 +47,14 @@ const SearchModal = () => {
         setStep((value) => value + 1);
     }, []);
 
-    const onSubmit = useCallback(async() => {
-        if(step !== STEPS.INFO) {
+    const onSubmit = useCallback(() => {
+        if (step !== STEPS.INFO) {
             return onNext();
         }
 
         let currentQuery = {};
 
-        if(params) {
+        if (params) {
             currentQuery = qs.parse(params.toString());
         }
 
@@ -66,18 +66,18 @@ const SearchModal = () => {
             bathroomCount
         };
 
-        if(dateRange.startDate) {
+        if (dateRange.startDate) {
             updateQuery.startDate = formatISO(dateRange.startDate);
         }
 
-        if(dateRange.endDate) {
+        if (dateRange.endDate) {
             updateQuery.endDate = formatISO(dateRange.endDate);
         }
 
         const url = qs.stringifyUrl({
             url: '/',
             query: updateQuery
-        }, {skipNull: true});
+        }, { skipNull: true });
 
         setStep(STEPS.LOCATION);
         searchModal.onClose();
@@ -88,7 +88,7 @@ const SearchModal = () => {
     ]);
 
     const actionLabel = useMemo(() => {
-        if(step === STEPS.INFO) {
+        if (step === STEPS.INFO) {
             return 'Search';
         }
 
@@ -96,7 +96,7 @@ const SearchModal = () => {
     }, [step]);
 
     const secondaryActionLabel = useMemo(() => {
-        if(step === STEPS.LOCATION) {
+        if (step === STEPS.LOCATION) {
             return undefined;
         }
 
@@ -104,12 +104,12 @@ const SearchModal = () => {
     }, [step]);
 
     let bodyContent = (
-        <div className="flex flex-col gap-8"> 
-            <Heading 
+        <div className="flex flex-col gap-8">
+            <Heading
                 title="Where do you wanna go"
                 subtitle="Find the perfect location!"
             />
-            <CountrySelect 
+            <CountrySelect
                 value={location}
                 onChange={(value) => setLocation(value as CountrySelectValue)}
             />
@@ -118,64 +118,64 @@ const SearchModal = () => {
         </div>
     )
 
-    if(step === STEPS.DATE) {
+    if (step === STEPS.DATE) {
         bodyContent = (
-            <div className="flex flex-col gap-8"> 
-            <Heading 
-                title="When do you plan to go"
-                subtitle="Make sure everyone is free!"
-            />
-            <Calendar 
-                value={dateRange}
-                onChange={(value) => setDateRange(value.selection)}
-            />
-   
-        </div>
+            <div className="flex flex-col gap-8">
+                <Heading
+                    title="When do you plan to go"
+                    subtitle="Make sure everyone is free!"
+                />
+                <Calendar
+                    value={dateRange}
+                    onChange={(value) => setDateRange(value.selection)}
+                />
+
+            </div>
         )
     }
 
-    if(step === STEPS.INFO) {
+    if (step === STEPS.INFO) {
         bodyContent = (
-            <div className="flex flex-col gap-8"> 
-            <Heading 
-                title="More information"
-                subtitle="Find your perfect place!"
-            />
-            <Counter 
-                title="Guests"
-                subtitle="How many guest are coming?"
-                value={guestCount}
-                onChange={(value) => setGuestCount(value)}
-            />
-            <Counter 
-                title="Rooms"
-                subtitle="How many rooms do you need?"
-                value={roomCount}
-                onChange={(value) => setGuestCount(value)}
-            />
-            <Counter 
-                title="Bathroom"
-                subtitle="How many bathrooms do you need?"
-                value={bathroomCount}
-                onChange={(value) => setGuestCount(value)}
-            />
+            <div className="flex flex-col gap-8">
+                <Heading
+                    title="More information"
+                    subtitle="Find your perfect place!"
+                />
+                <Counter
+                    title="Guests"
+                    subtitle="How many guest are coming?"
+                    value={guestCount}
+                    onChange={(value) => setGuestCount(value)}
+                />
+                <Counter
+                    title="Rooms"
+                    subtitle="How many rooms do you need?"
+                    value={roomCount}
+                    onChange={(value) => setGuestCount(value)}
+                />
+                <Counter
+                    title="Bathroom"
+                    subtitle="How many bathrooms do you need?"
+                    value={bathroomCount}
+                    onChange={(value) => setGuestCount(value)}
+                />
 
-        </div>
+            </div>
         )
     }
 
-  return (
-    <Modal 
-        isOpen={searchModal.isOpen}
-        onClose={searchModal.onClose}
-        onSubmit={onSubmit}
-        title='Filters'
-        actionLabel={actionLabel}
-        secondaryActionLabel={secondaryActionLabel}
-        secondaryAction={step === STEPS.LOCATION ? undefined : onBack}
-        body={bodyContent}
-    />
-  )
+    return (
+        <Modal
+            isOpen={searchModal.isOpen}
+            onClose={searchModal.onClose}
+            onSubmit={onSubmit}
+            title='Filters'
+            actionLabel={actionLabel}
+            secondaryActionLabel={secondaryActionLabel}
+            secondaryAction={step === STEPS.LOCATION ? undefined : onBack}
+            body={bodyContent}
+        />
+    )
 }
 
 export default SearchModal
