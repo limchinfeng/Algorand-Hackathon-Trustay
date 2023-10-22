@@ -74,7 +74,7 @@ function Voting() {
                         src="/images/brokenFurniture.jpg"
                         alt=""
                     />
-                    <h1 className="text-center font-extrabold text-xl">Do you support guest's statement or host's statement </h1>
+                    <h1 className="text-center font-extrabold text-xl">Do you support guest statement or host statement </h1>
                     <img
                         className="block ml-auto mr-auto border-2 border-primary rounded-full "
                         width={510}
@@ -111,7 +111,7 @@ function Voting() {
                 </div>
                 <div className="w-6/12 flex flex-col gap-2 ">
                     <h1 className="text-2xl font-extrabold ">
-                        Guest's Unfortunate Mishap Results in Damaged Furniture at Host's Home
+                        Guest Unfortunate Mishap Results in Damaged Furniture at Host Home
                     </h1>
                     <p className="font-normal text-sm text-gray-600">
                         24/5/2023
@@ -119,12 +119,12 @@ function Voting() {
                     <div className="text-justify">
                         <h1 className="text-lg font-extrabold text-primary">Guest:</h1>
                         <p>
-                            An Unexpected Incident Puts Hospitality to the TestIn a rather unusual turn of events, a guest or tenant inadvertently caused damage to their host's furniture, leaving both parties with an unexpected challenge to resolve.[Kuala Lumpur, 9/10/2023] - The concept of sharing one's home with guests or tenants has gained immense popularity in recent years, thanks to platforms like Airbnb and VRBO. While most experiences are positive and harmonious, there are occasional incidents that serve as a reminder of the potential risks involved.
+                            An Unexpected Incident Puts Hospitality to the TestIn a rather unusual turn of events, a guest or tenant inadvertently caused damage to their host furniture, leaving both parties with an unexpected challenge to resolve.[Kuala Lumpur, 9/10/2023] - The concept of sharing one home with guests or tenants has gained immense popularity in recent years, thanks to platforms like Airbnb and VRBO. While most experiences are positive and harmonious, there are occasional incidents that serve as a reminder of the potential risks involved.
                         </p>
                         <br />
                         <h1 className="text-lg font-extrabold text-primary">Host:</h1>
                         <p>
-                            This recent episode, which unfolded in Kuala Lumpur, involved a guest staying at a host's residence. What was intended to be a simple staycation for the guest took an unexpected turn when, through a series of unfortunate mishaps, a piece of the host's furniture was damaged. The incident serves as a reminder that accidents can happen, even with the best intentions. Fortunately, both the host and the guest are working together to address the situation amicably, highlighting the importance of open communication and understanding between parties in such shared living arrangements. While it may be disheartening to witness damage to personal property, this incident is a testament to the resilience of the sharing economy, where individuals come together to find solutions and maintain positive experiences. It's an opportunity for both host and guest to learn and grow from the experience, promoting a sense of community and understanding.
+                            This recent episode, which unfolded in Kuala Lumpur, involved a guest staying at a host residence. What was intended to be a simple staycation for the guest took an unexpected turn when, through a series of unfortunate mishaps, a piece of the host furniture was damaged. The incident serves as a reminder that accidents can happen, even with the best intentions. Fortunately, both the host and the guest are working together to address the situation amicably, highlighting the importance of open communication and understanding between parties in such shared living arrangements. While it may be disheartening to witness damage to personal property, this incident is a testament to the resilience of the sharing economy, where individuals come together to find solutions and maintain positive experiences. It an opportunity for both host and guest to learn and grow from the experience, promoting a sense of community and understanding.
                         </p>
                     </div>
                 </div>
