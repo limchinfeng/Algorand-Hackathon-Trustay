@@ -17,7 +17,7 @@ function Voting() {
         try {
             setIsLoading(true);
             if (!isVoted) {
-                toast.success("You have voted 'Agree'");
+                toast.success("You have voted 'Guest'");
                 setTimeout(() => {
                     setUsers(user => user + 1)
                 }, 1000)
@@ -34,7 +34,7 @@ function Voting() {
         try {
             setIsLoading(true);
             if (!isVoted) {
-                toast.success("You have voted 'Disagree'");
+                toast.success("You have voted 'Host'");
                 setTimeout(() => {
                     setUsers(user => user + 1)
                 }, 1000)
@@ -95,13 +95,13 @@ function Voting() {
                             />
                         </> : <>
                             <Button
-                                label="Vote 'Agree'"
+                                label="Vote 'Guest'"
                                 onClick={onIncrease}
                                 outline
                                 disabled={isLoading}
                             />
                             <Button
-                                label="Vote 'Disagree'"
+                                label="Vote 'Host'"
                                 onClick={onDelete}
                                 outline
                                 disabled={isLoading}
